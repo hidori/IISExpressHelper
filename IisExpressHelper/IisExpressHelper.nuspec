@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>IisExpressHelper</id>
+    <version>0.1.1</version>
+    <authors>hidori</authors>
+    <owners>hidori</owners>
+    <licenseUrl>https://raw.githubusercontent.com/hidori/IisExpressHelper/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/hidori/IisExpressHelper</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>IIS Express Helper for unit testing.</description>
+    <copyright>Copyright (c) 2015 Hiroaki SHIBUKI a.k.a. hidori</copyright>
+    <tags>Testing ASP.NET Mjollnir</tags>
+  </metadata>
+  <files>
+    <file src="IisExpress.cs" target="Content\net45" />
+  </files>
+</package>
