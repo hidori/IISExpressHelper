@@ -6,9 +6,9 @@ using System.Management;
 using System.Net.Http;
 using System.Threading;
 
-namespace Mjollnir.Testing
+namespace Mjollnir.Testing.Helpers
 {
-    public static class IisExpress
+    public static class IisExpressHelper
     {
         public class Settings
         {

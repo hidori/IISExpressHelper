@@ -4,27 +4,27 @@ using System.Net;
 using Mjollnir.Testing;
 using NUnit.Framework;
 
-namespace IisExpressHelper.Tests
+namespace Mjollnir.Testing.Helpers.Tests
 {
     [TestFixture]
     public class IisExpressHelperTest
     {
-        static readonly IisExpress.Settings iisExpressSettings = new IisExpress.Settings(
-            path: Path.GetFullPath(Path.Combine(Path.GetDirectoryName(typeof(IisExpressHelperTest).Assembly.Location), @"..\..\..\IisExpressHelper.E2E.Tests")),
-            port: 33115,
-            healthCheckUri: new Uri("http://localhost:33115"));
+        static readonly IisExpressHelper.Settings iisExpressSettings = new IisExpressHelper.Settings(
+            path: Path.GetFullPath(Path.Combine(Path.GetDirectoryName(typeof(IisExpressHelperTest).Assembly.Location), @"..\..\..\IisExpressHelper.E2E.Target")),
+            port: 20002,
+            healthCheckUri: new Uri("http://localhost:20002"));
 
         [TestFixtureSetUp]
         public void Initialize()
         {
-            IisExpress.StopAll(iisExpressSettings);
-            IisExpress.Start(iisExpressSettings);
+            IisExpressHelper.StopAll(iisExpressSettings);
+            IisExpressHelper.Start(iisExpressSettings);
         }
 
         [TestFixtureTearDown]
         public void Terminate()
         {
-            IisExpress.StopAll(iisExpressSettings);
+            IisExpressHelper.StopAll(iisExpressSettings);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace IisExpressHelper.Tests
         {
             using (var client = new WebClient())
             {
-                var text = client.DownloadString("http://localhost:33115/TextFile1.txt");
+                var text = client.DownloadString("http://localhost:20002/TextFile1.txt");
                 text.Is("ABCZ");
             }
         }

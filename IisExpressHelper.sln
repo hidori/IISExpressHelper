@@ -1,18 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IisExpressHelper.Tests", "IisExpressHelper.Tests\IisExpressHelper.Tests.csproj", "{FA9A6231-2A54-4D9E-B3C4-BB213DF7E9D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IisExpressHelper.E2E.Tests", "IisExpressHelper.E2E.Tests\IisExpressHelper.E2E.Tests.csproj", "{7640F13E-D345-489E-BB5E-4A429F6917E7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03BACFED-C214-4F81-926F-9B4CE75997A9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IisExpressHelper", "IisExpressHelper", "{4670BB93-A19B-4F60-A508-0F8361232569}"
 	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
+		IisExpressHelper\IisExpressHelper.cs = IisExpressHelper\IisExpressHelper.cs
+		IisExpressHelper\IisExpressHelper.nuspec = IisExpressHelper\IisExpressHelper.nuspec
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IisExpressHelper.E2E.Target", "IisExpressHelper.E2E.Target\IisExpressHelper.E2E.Target.csproj", "{7640F13E-D345-489E-BB5E-4A429F6917E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
