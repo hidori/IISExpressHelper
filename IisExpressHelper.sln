@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IisExpressHelper", "IisExpr
 		IisExpressHelper\IisExpressHelper.nuspec = IisExpressHelper\IisExpressHelper.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IisExpressHelper.E2E.Target", "IisExpressHelper.E2E.Target\IisExpressHelper.E2E.Target.csproj", "{7640F13E-D345-489E-BB5E-4A429F6917E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E2ETestTarget", "E2ETestTarget\E2ETestTarget.csproj", "{7640F13E-D345-489E-BB5E-4A429F6917E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

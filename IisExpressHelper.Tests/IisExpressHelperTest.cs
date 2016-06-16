@@ -1,38 +1,47 @@
-﻿using System;
+﻿using NUnit.Framework;
 using System.IO;
 using System.Net;
-using Mjollnir.Testing;
-using NUnit.Framework;
 
 namespace Mjollnir.Testing.Helpers.Tests
 {
     [TestFixture]
     public class IisExpressHelperTest
     {
-        static readonly IisExpressHelper.Settings iisExpressSettings = new IisExpressHelper.Settings(
-            path: Path.GetFullPath(Path.Combine(Path.GetDirectoryName(typeof(IisExpressHelperTest).Assembly.Location), @"..\..\..\IisExpressHelper.E2E.Target")),
-            port: 20002,
-            healthCheckUri: new Uri("http://localhost:20002"));
-
-        [TestFixtureSetUp]
-        public void Initialize()
+        [Test]
+        public void ConstructorTest()
         {
-            IisExpressHelper.StopAll(iisExpressSettings);
-            IisExpressHelper.Start(iisExpressSettings);
-        }
+            var path = Global.Config.ExecutablePath;
+            var apppath = Global.Config.AppPath;
+            var port = Global.Config.Port;
+            var clr = Global.Config.Clr;
 
-        [TestFixtureTearDown]
-        public void Terminate()
-        {
-            IisExpressHelper.StopAll(iisExpressSettings);
+            {
+                var target = new IisExpressHelper(path, apppath, port);
+
+                target.ExecutablePath.Is(path);
+                target.AppPath.Is(apppath);
+                target.Port.Is(port);
+                target.Clr.IsNull();
+            }
+
+            {
+                var target = new IisExpressHelper(path, apppath, port, clr);
+
+                target.ExecutablePath.Is(path);
+                target.AppPath.Is(apppath);
+                target.Port.Is(port);
+                target.Clr.Is(clr);
+            }
         }
 
         [Test]
         public void DownloadTextFile1Test()
         {
+            var port = Global.Config.Port;
+
             using (var client = new WebClient())
             {
-                var text = client.DownloadString("http://localhost:20002/TextFile1.txt");
+                var text = client.DownloadString($"http://localhost:{port}/TextFile1.txt");
                 text.Is("ABCZ");
             }
         }

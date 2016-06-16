@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net.Http;
@@ -8,76 +8,77 @@ using System.Threading;
 
 namespace Mjollnir.Testing.Helpers
 {
-    public static class IisExpressHelper
+    /// <summary>
+    /// Helps iisexpress.exe automation.
+    /// </summary>
+    public class IisExpressHelper
     {
-        public class Settings
+        /// <summary>
+        /// Initializes a new instance of the IisExpressHelper class with the specified parametters.
+        /// </summary>
+        /// <param name="path">The path of a iisexpress.exe file.</param>
+        /// <param name="apppath">The full physical path of the application to run.</param>
+        /// <param name="port">The port to which the application will bind.</param>
+        /// <param name="clr">The .NET Framework version (e.g. v2.0) to use to run the application.</param>
+        public IisExpressHelper(string path, string apppath, int port, string clr)
         {
-            const string defaultClr = "v4.0";
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (apppath == null) throw new ArgumentNullException(nameof(apppath));
+            if (port < 1) throw new ArgumentOutOfRangeException(nameof(port));
+            if (clr == null) throw new ArgumentNullException(nameof(clr));
 
-            static readonly TimeSpan defaultHealthCheckTimeout = TimeSpan.FromMinutes(3);
-
-            public Settings(string path, int port, string clr, Uri healthCheckUri, TimeSpan healthCheckTimeout)
-            {
-                if (path == null) throw new ArgumentNullException("path");
-                if (port < 1) throw new ArgumentOutOfRangeException("port");
-                if (clr == null) throw new ArgumentNullException("clr");
-                if (healthCheckUri == null) throw new ArgumentNullException("healthCheckUri");
-
-                this.Path = path;
-                this.Port = port;
-                this.Clr = clr;
-                this.HealthCheckUri = healthCheckUri;
-                this.HealthCheckTimeout = healthCheckTimeout;
-            }
-
-            public Settings(string path, int port, string clr, Uri healthCheckUri)
-                : this(path, port, clr, healthCheckUri, defaultHealthCheckTimeout)
-            {
-                // nothing to do.
-            }
-
-            public Settings(string path, int port, Uri healthCheckUri, TimeSpan healthCheckTimeout)
-                : this(path, port, defaultClr, healthCheckUri)
-            {
-                // nothing to do.
-            }
-
-            public Settings(string path, int port, Uri healthCheckUri)
-                : this(path, port, defaultClr, healthCheckUri, defaultHealthCheckTimeout)
-            {
-                // nothing to do.
-            }
-
-            public string Path { get; private set; }
-
-            public int? Port { get; private set; }
-
-            public string Clr { get; private set; }
-
-            public Uri HealthCheckUri { get; private set; }
-
-            public TimeSpan? HealthCheckTimeout { get; private set; }
+            this.ExecutablePath = path;
+            this.AppPath = apppath;
+            this.Port = port;
+            this.Clr = clr;
         }
 
-        public static void Start(Settings settings)
+        /// <summary>
+        /// Initializes a new instance of the IisExpressHelper class with the specified parametters.
+        /// </summary>
+        /// <param name="path">The path of a iisexpress.exe file.</param>
+        /// <param name="apppath">The full physical path of the application to run.</param>
+        /// <param name="port">The port to which the application will bind.</param>
+        public IisExpressHelper(string path, string apppath, int port)
         {
-            if (settings == null) throw new ArgumentNullException("settings");
+            if (path == null) throw new ArgumentNullException(nameof(path));
+            if (apppath == null) throw new ArgumentNullException(nameof(apppath));
+            if (port < 1) throw new ArgumentOutOfRangeException(nameof(port));
 
-            var fileName = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                "IIS Express",
-                "iisexpress.exe");
+            this.ExecutablePath = path;
+            this.AppPath = apppath;
+            this.Port = port;
+            this.Clr = null;
+        }
 
-            var arguments = string.Join(" ", new[]
+        /// <summary>
+        /// Gets the path of a sqlcmd.exe file.
+        /// </summary>
+        public string ExecutablePath { get; private set; }
+
+        /// <summary>
+        /// Gets the full physical path of the application to run.
+        /// </summary>
+        public string AppPath { get; private set; }
+
+        /// <summary>
+        /// Gets the port to which the application will bind.
+        /// </summary>
+        public int Port { get; private set; }
+
+        /// <summary>
+        /// Gets the .NET Framework version (e.g. v2.0) to use to run the application.
+        /// </summary>
+        public string Clr { get; private set; }
+
+        public void Start()
+        {
+            var arguments = string.Join(" ", this.CreateArguments());
+
+            using (var process = Process.Start(this.ExecutablePath, arguments))
             {
-                string.Format(@"/path:""{0}""", settings.Path),
-                string.Format("/port:{0}", settings.Port),
-                string.Format("/clr:{0}", settings.Clr),
-            });
-
-            using (var process = Process.Start(fileName, arguments))
-            {
-                var timeout = DateTime.Now + settings.HealthCheckTimeout;
+                var uri = new Uri($"http://localhost:{this.Port}/");
+                var timeout = DateTime.Now + TimeSpan.FromMinutes(3);
 
                 while (DateTime.Now < timeout)
                 {
@@ -85,7 +86,7 @@ namespace Mjollnir.Testing.Helpers
                     {
                         Thread.Sleep(1000);
 
-                        var response = client.GetAsync(settings.HealthCheckUri).ConfigureAwait(false).GetAwaiter().GetResult();
+                        var response = client.GetAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
 
                         if ((((int)response.StatusCode) / 100) != 5) return;
                     }
@@ -95,14 +96,8 @@ namespace Mjollnir.Testing.Helpers
             }
         }
 
-        public static void StopAll(Settings settings)
+        public void StopAll()
         {
-            if (settings == null) throw new ArgumentNullException("settings");
-
-            var path = string.Format(@"/path:""{0}""", settings.Path);
-            var port = string.Format("/port:{0}", settings.Port);
-            var clr = string.Format("/clr:{0}", settings.Clr);
-
             using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE Name='iisexpress.exe'"))
             using (var processes = searcher.Get())
             {
@@ -112,7 +107,7 @@ namespace Mjollnir.Testing.Helpers
                     {
                         var commandLine = Convert.ToString(process["CommandLine"]);
 
-                        if (commandLine.Contains(path) && commandLine.Contains(port) && commandLine.Contains(clr))
+                        if (commandLine.Contains(this.AppPath) && commandLine.Contains(this.Port.ToString()))
                         {
                             try
                             {
@@ -125,6 +120,17 @@ namespace Mjollnir.Testing.Helpers
                         }
                     }
                 }
+            }
+        }
+
+        protected virtual IEnumerable<string> CreateArguments()
+        {
+            yield return $"/path:\"{this.AppPath}\"";
+            yield return $"/port:{this.Port}";
+
+            if (!string.IsNullOrEmpty(this.Clr))
+            {
+                yield return $"/clr:{this.Clr}";
             }
         }
     }

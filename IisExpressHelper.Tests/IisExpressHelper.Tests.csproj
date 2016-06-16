@@ -52,6 +52,7 @@
       <Link>IisExpressHelper.cs</Link>
     </Compile>
     <Compile Include="ChainingAssertion.NUnit.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="IisExpressHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
