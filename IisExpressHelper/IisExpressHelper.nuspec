@@ -8,15 +8,15 @@
     <licenseUrl>https://raw.githubusercontent.com/hidori/IisExpressHelper/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/hidori/IisExpressHelper</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>IIS Express Helper for unit testing.</description>
+    <description>Helps iisexpress.exe automation.</description>
     <copyright>Copyright (c) 2015-2016 Hiroaki SHIBUKI a.k.a. hidori</copyright>
     <tags>Mjollnir Testing IisExpress</tags>
   </metadata>
   <files>
-    <file src="SqlcmdHelper.cs" target="Content\net45" />
-    <file src="SqlcmdHelper.cs" target="Content\net451" />
-    <file src="SqlcmdHelper.cs" target="Content\net452" />
-    <file src="SqlcmdHelper.cs" target="Content\net46" />
-    <file src="SqlcmdHelper.cs" target="Content\net461" />
+    <file src="IisExpressHelper.cs" target="Content\net45" />
+    <file src="IisExpressHelper.cs" target="Content\net451" />
+    <file src="IisExpressHelper.cs" target="Content\net452" />
+    <file src="IisExpressHelper.cs" target="Content\net46" />
+    <file src="IisExpressHelper.cs" target="Content\net461" />
   </files>
 </package>
