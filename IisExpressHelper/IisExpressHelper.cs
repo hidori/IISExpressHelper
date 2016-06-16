@@ -71,6 +71,9 @@ namespace Mjollnir.Testing.Helpers
         /// </summary>
         public string Clr { get; private set; }
 
+        /// <summary>
+        /// Start the web application.
+        /// </summary>
         public void Start()
         {
             var arguments = string.Join(" ", this.CreateArguments());
@@ -96,6 +99,9 @@ namespace Mjollnir.Testing.Helpers
             }
         }
 
+        /// <summary>
+        /// Stop the web application.
+        /// </summary>
         public void StopAll()
         {
             using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Process WHERE Name='iisexpress.exe'"))
