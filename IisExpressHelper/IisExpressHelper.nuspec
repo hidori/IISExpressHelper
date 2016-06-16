@@ -10,10 +10,13 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>IIS Express Helper for unit testing.</description>
     <copyright>Copyright (c) 2015-2016 Hiroaki SHIBUKI a.k.a. hidori</copyright>
-    <tags>Mjollnir Testing IISExpress</tags>
+    <tags>Mjollnir Testing IisExpress</tags>
   </metadata>
   <files>
-    <file src="IisExpress.cs" target="Content\net45" />
-    <file src="IisExpress.cs" target="Content\net46" />
+    <file src="SqlcmdHelper.cs" target="Content\net45" />
+    <file src="SqlcmdHelper.cs" target="Content\net451" />
+    <file src="SqlcmdHelper.cs" target="Content\net452" />
+    <file src="SqlcmdHelper.cs" target="Content\net46" />
+    <file src="SqlcmdHelper.cs" target="Content\net461" />
   </files>
 </package>
