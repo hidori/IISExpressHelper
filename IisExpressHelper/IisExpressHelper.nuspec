@@ -9,10 +9,11 @@
     <projectUrl>https://github.com/hidori/IisExpressHelper</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>IIS Express Helper for unit testing.</description>
-    <copyright>Copyright (c) 2015 Hiroaki SHIBUKI a.k.a. hidori</copyright>
-    <tags>Testing ASP.NET Mjollnir</tags>
+    <copyright>Copyright (c) 2015-2016 Hiroaki SHIBUKI a.k.a. hidori</copyright>
+    <tags>Mjollnir Testing IISExpress</tags>
   </metadata>
   <files>
     <file src="IisExpress.cs" target="Content\net45" />
+    <file src="IisExpress.cs" target="Content\net46" />
   </files>
 </package>
